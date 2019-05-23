@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var app = express();
+const courses = require('./graphql/courses');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -31,7 +32,14 @@ app.use('/graphql', express_graphql({
   schema,
   rootValue: root,
   graphiql: true
-}))
+}));
+app.use('/courses', express_graphql({
+  schema: courses.schema,
+  rootValue: courses.root,
+  graphiql: true
+}));
+
+app.unsubscribe('')
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
